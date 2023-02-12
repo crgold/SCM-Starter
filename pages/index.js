@@ -1,27 +1,14 @@
 import {useState, useEffect} from "react";
-import {Contract, providers, ethers} from "ethers";
-import { MetaMaskInpageProvider } from "@metamask/providers";
+import {ethers} from "ethers";
 import atm_abi from "../artifacts/contracts/Assessment.sol/Assessment.json";
 
-interface IWeb3 {  
-  ethereum?: MetaMaskInpageProvider;
-  provider?: providers.Web3Provider;
-  contract?: Contract;
-};
-
-declare global {
-  interface Window {
-    ethereum?: MetaMaskInpageProvider;
-  }
-}
-
 export default function HomePage() {
-  const [ethWallet, setEthWallet] = useState<any>(undefined);
-  const [account, setAccount] = useState<String | undefined>(undefined);
-  const [atm, setATM] = useState<Contract | undefined>(undefined);
+  const [ethWallet, setEthWallet] = useState(undefined);
+  const [account, setAccount] = useState(undefined);
+  const [atm, setATM] = useState(undefined);
   const [balance, setBalance] = useState(undefined);
 
-  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const contractAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
   const atmABI = atm_abi.abi;
 
   const getWallet = async() => {
@@ -35,7 +22,7 @@ export default function HomePage() {
     }
   }
 
-  const handleAccount = (account : String) => {
+  const handleAccount = (account) => {
     if (account) {
       console.log ("Account connected: ", account);
       setAccount(account);
@@ -68,7 +55,9 @@ export default function HomePage() {
 
   const getBalance = async() => {
     if (atm) {
+      console.log("before setBalance");
       setBalance((await atm.getBalance()).toNumber());
+      console.log("after setBalance");
     }
   }
 
@@ -117,7 +106,7 @@ export default function HomePage() {
 
   return (
     <main className="container">
-      <header><h1>Welcome to the Metabuilders ATM!</h1></header>
+      <header><h1>Welcome to the Metacrafters ATM!</h1></header>
       {initUser()}
       <style jsx>{`
         .container {
